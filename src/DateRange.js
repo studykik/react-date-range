@@ -131,30 +131,31 @@ class DateRange extends Component {
 
           for (var i = Number(calendars) - 1; i >= 0; i--) {
             _calendars[_method](
-              <Calendar
-                showMonthArrow={ showMonthArrow }
-                shownDate={ shownDate }
-                disableDaysBeforeToday={ disableDaysBeforeToday }
-                lang={ lang }
-                key={i}
-                offset={ offsetPositive ? i : -i }
-                link={ linkedCalendars && link }
-                linkCB={ this.handleLinkChange.bind(this) }
-                range={ range }
-                format={ format }
-                firstDayOfWeek={ firstDayOfWeek }
-                theme={ styles }
-                minDate={ minDate }
-                maxDate={ maxDate }
-		            onlyClasses={ onlyClasses }
-                classNames={ classes }
-                onChange={ this.handleSelect.bind(this) }  />
+                <div key={i} className={"calendar-"+(i+1)}>
+                    <Calendar
+                        showMonthArrow={ showMonthArrow }
+                        shownDate={ shownDate }
+                        disableDaysBeforeToday={ disableDaysBeforeToday }
+                        lang={ lang }
+                        offset={ offsetPositive ? i : -i }
+                        link={ linkedCalendars && link }
+                        linkCB={ this.handleLinkChange.bind(this) }
+                        range={ range }
+                        format={ format }
+                        firstDayOfWeek={ firstDayOfWeek }
+                        theme={ styles }
+                        minDate={ minDate }
+                        maxDate={ maxDate }
+                        onlyClasses={ onlyClasses }
+                        classNames={ classes }
+                        onChange={ this.handleSelect.bind(this) }  />
+                </div>
             );
           }
           
           return (
               <div className={classes.calendarContainer}>
-                _calendars
+                  {_calendars}
               </div>
           );
         }()}
