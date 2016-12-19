@@ -19,6 +19,7 @@ export const defaultClasses = {
   monthAndYearDivider        : 'rdr-MonthAndYear-divider',
   year                       : 'rdr-MonthAndYear-year',
   daySunday                  : 'rdr-Sunday',
+  calendarContainer          : 'calendar-container'
 };
 
 const defaultTheme = {

@@ -128,6 +128,7 @@ class DateRange extends Component {
         {()=>{
           const _calendars = [];
           const _method = offsetPositive ? 'unshift' : 'push';
+
           for (var i = Number(calendars) - 1; i >= 0; i--) {
             _calendars[_method](
               <Calendar
@@ -150,7 +151,12 @@ class DateRange extends Component {
                 onChange={ this.handleSelect.bind(this) }  />
             );
           }
-          return _calendars;
+          
+          return (
+              <div className={classes.calendarContainer}>
+                _calendars
+              </div>
+          );
         }()}
       </div>
     );
