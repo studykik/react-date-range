@@ -55,7 +55,7 @@ class DateRange extends Component {
     if (date.startDate && date.endDate) {
       this.step = 0;
 
-      let shownDate = [date, date.clone().add(1, 'months')];
+      let shownDate = [date['startDate'], date['startDate'].clone().add(1, 'months')];
       this.setState({shownDate});
 
       return this.setRange(date, source);
