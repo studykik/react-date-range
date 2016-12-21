@@ -79,11 +79,11 @@ class DateRange extends Component {
     this.setRange(range, source);
   }
 
-  handleLinkChange(direction) {
+  handleLinkChange(difference) {
     const { link } = this.state;
 
     this.setState({
-      link : link.clone().add(direction, 'months', magnitude)
+      link : link.clone().add(difference, 'months')
     });
   }
 
