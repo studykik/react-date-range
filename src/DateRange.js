@@ -138,7 +138,7 @@ class DateRange extends Component {
                 <div key={i} className={"calendar-"+(i+1)}>
                     <Calendar
                         showMonthArrow={ showMonthArrow }
-                        shownDate={ shownDate && shownDate[Number(calendars) - i] }
+                        shownDate={ shownDate ? shownDate[Number(calendars) - i] : undefined }
                         disableDaysBeforeToday={ disableDaysBeforeToday }
                         lang={ lang }
                         offset={ offsetPositive ? i : -i }
