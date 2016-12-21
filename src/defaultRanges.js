@@ -26,6 +26,15 @@ export default {
     }
   },
 
+  'Last 14 Days'   : {
+    startDate     : (now) => {
+      return now.add(-14, 'days');
+    },
+    endDate       : (now) => {
+      return now;
+    }
+  },
+
   'Last 30 Days'  : {
     startDate     : (now) => {
       return now.add(-30, 'days');
