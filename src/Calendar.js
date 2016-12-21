@@ -59,9 +59,11 @@ class Calendar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { range, offset } = nextProps;
+    const { range, offset, shownDate } = nextProps;
 
-    if(range && range['endDate'] && !range['endDate'].isSame(range['startDate'])) {
+    if (shownDate) {
+      this.setState({shownDate});
+    } else if(range && range['endDate'] && !range['endDate'].isSame(range['startDate'])) {
       this.setState({ shownDate : range['endDate'].clone().add(offset, 'months') })
     }
   }

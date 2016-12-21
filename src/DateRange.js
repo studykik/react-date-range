@@ -77,6 +77,10 @@ class DateRange extends Component {
     }
 
     this.setRange(range, source);
+
+    let shownDate = [range['startDate'], range['startDate'].clone().add(1, 'months')];
+
+    this.setState({shownDate});
   }
 
   handleLinkChange(direction) {
@@ -106,8 +110,8 @@ class DateRange extends Component {
   }
 
   render() {
-    const { ranges, format, linkedCalendars, style, calendars, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, lang, disableDaysBeforeToday, offsetPositive, shownDate, showMonthArrow } = this.props;
-    const { range, link } = this.state;
+    const { ranges, format, linkedCalendars, style, calendars, firstDayOfWeek, minDate, maxDate, classNames, onlyClasses, lang, disableDaysBeforeToday, offsetPositive, showMonthArrow } = this.props;
+    const { range, link, shownDate } = this.state;
     const { styles } = this;
 
     const classes = { ...defaultClasses, ...classNames };
@@ -134,7 +138,7 @@ class DateRange extends Component {
                 <div key={i} className={"calendar-"+(i+1)}>
                     <Calendar
                         showMonthArrow={ showMonthArrow }
-                        shownDate={ shownDate }
+                        shownDate={ shownDate && shownDate[Number(calendars) - i] }
                         disableDaysBeforeToday={ disableDaysBeforeToday }
                         lang={ lang }
                         offset={ offsetPositive ? i : -i }
