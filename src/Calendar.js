@@ -63,13 +63,15 @@ class Calendar extends Component {
     const offset = nextProps.offset;
     const prevRange = this.props.range;
 
-    if (nextRange && !nextRange['endDate'].isSame(prevRange['endDate'])) {
+    if (nextRange) {
       let absMonthPrev = prevRange['endDate'].clone().month() * 12;
       let absMonthNext = nextRange['endDate'].clone().month() * 12;
       let absMonthDiff = absMonthNext - absMonthPrev;
 
       this.changeMonth(-1, null, absMonthDiff);
-    } else if(nextRange && nextRange['endDate'] && !nextRange['endDate'].isSame(nextRange['startDate'])) {
+    }
+
+    if(nextRange && nextRange['endDate'] && !nextRange['endDate'].isSame(nextRange['startDate'])) {
       this.setState({ shownDate : nextRange['endDate'].clone().add(offset, 'months') })
     }
   }
