@@ -93,7 +93,10 @@ class Calendar extends Component {
   }
 
   changeMonth(direction, event, magnitude) {
-    event && event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
+
     const { link, linkCB } = this.props;
 
     if (!magnitude) {
