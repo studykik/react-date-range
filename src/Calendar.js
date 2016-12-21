@@ -198,6 +198,13 @@ class Calendar extends Component {
       }
     }
 
+    // Next month's days
+    const remainingCells = 42 - days.length; // 42cells = 7days * 6rows
+    for (let i = 1; i <= remainingCells; i++ ) {
+      const dayMoment  = nextMonth.clone().date(i);
+      days.push({ dayMoment, isPassive : true });
+    }
+
     const today = moment().endOf('day');
     return days.map((data, index) => {
       const { dayMoment, isPassive } = data;
