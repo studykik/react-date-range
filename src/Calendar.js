@@ -59,17 +59,10 @@ class Calendar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { nextRange, nextOffset } = nextProps;
-    const { prevRange, prevOffset } = this.props;
+    const { range, offset } = nextProps;
 
-    let absMonthPrev = prevRange['endDate'].clone().month() * 12;
-    let absMonthNext = nextRange['endDate'].clone().month() * 12;
-    let absMonthDiff = absMonthNext - absMonthPrev;
-
-    this.changeMonth(1, null, absMonthDiff);
-
-    if(nextRange && nextRange['endDate'] && !nextRange['endDate'].isSame(nextRange['startDate'])) {
-      this.setState({ shownDate : nextRange['endDate'].clone().add(nextOffset, 'months') })
+    if(range && range['endDate'] && !range['endDate'].isSame(range['startDate'])) {
+      this.setState({ shownDate : range['endDate'].clone().add(offset, 'months') })
     }
   }
 
@@ -92,20 +85,16 @@ class Calendar extends Component {
     }
   }
 
-  changeMonth(direction, event, magnitude) {
-    event && event.preventDefault();
+  changeMonth(direction, event) {
+    event.preventDefault();
     const { link, linkCB } = this.props;
 
-    if (!magnitude) {
-      magnitude = 1;
-    }
-
     if (link && linkCB) {
-      return linkCB(direction * magnitude);
+      return linkCB(direction);
     }
 
     const current  = this.state.shownDate.month();
-    const newMonth = this.state.shownDate.clone().add(direction * magnitude, 'months');
+    const newMonth = this.state.shownDate.clone().add(direction, 'months');
 
     this.setState({
       shownDate : newMonth
