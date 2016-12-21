@@ -51,11 +51,13 @@ class DateRange extends Component {
   }
 
   handleSelect(date, source) {
-    let shownDate = [range['startDate'], range['startDate'].clone().add(1, 'months')];
-    this.setState({shownDate});
 
     if (date.startDate && date.endDate) {
       this.step = 0;
+
+      let shownDate = [date, date.clone().add(1, 'months')];
+      this.setState({shownDate});
+
       return this.setRange(date, source);
     }
 
@@ -78,6 +80,9 @@ class DateRange extends Component {
         this.step = 0;
         break;
     }
+
+    let shownDate = [range['startDate'], range['startDate'].clone().add(1, 'months')];
+    this.setState({shownDate});
 
     this.setRange(range, source);
   }
