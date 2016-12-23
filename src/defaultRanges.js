@@ -42,5 +42,23 @@ export default {
     endDate       : (now) => {
       return now;
     }
+  },
+
+  'This Month'    : {
+    startDate     : (now) => {
+      return now.startOf('month');
+    },
+    endDate       : (now) => {
+      return now.endOf('month');
+    }
+  },
+
+  'Last Month'    : {
+    startDate     : (now) => {
+      return now.clone().subtract(1, 'months').startOf('month');
+    },
+    endDate       : (now) => {
+      return now.clone().subtract(1, 'months').endOf('month');
+    }
   }
 }
