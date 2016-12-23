@@ -55,9 +55,7 @@ class DateRange extends Component {
     if (date.startDate && date.endDate) {
       this.step = 0;
 
-      let shownDate = [date['startDate'], date['startDate'].clone().add(1, 'months')];
-      this.setState({shownDate});
-
+      this.setState({link : date.startDate.clone().add(1, 'month')});
       return this.setRange(date, source);
     }
 
@@ -80,9 +78,6 @@ class DateRange extends Component {
         this.step = 0;
         break;
     }
-
-    let shownDate = [range['startDate'], range['startDate'].clone().add(1, 'months')];
-    this.setState({shownDate});
 
     this.setRange(range, source);
   }
@@ -142,7 +137,7 @@ class DateRange extends Component {
                 <div key={i} className={"calendar-"+(i+1)}>
                     <Calendar
                         showMonthArrow={ showMonthArrow }
-                        shownDate={ shownDate ? shownDate[Number(calendars) - i] : undefined }
+                        shownDate={ shownDate }
                         disableDaysBeforeToday={ disableDaysBeforeToday }
                         lang={ lang }
                         offset={ offsetPositive ? i : -i }
