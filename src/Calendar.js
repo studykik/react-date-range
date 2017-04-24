@@ -72,7 +72,6 @@ class Calendar extends Component {
     const { link, offset } = this.props;
 
     const shownDate = (link) ? link.clone().add(offset, 'months') : this.state.shownDate;
-
     return shownDate;
   }
 
@@ -95,11 +94,18 @@ class Calendar extends Component {
       return linkCB(direction);
     }
 
-    const current  = this.state.shownDate.month();
     const newMonth = this.state.shownDate.clone().add(direction, 'months');
 
     this.setState({
       shownDate : newMonth
+    });
+  }
+
+  changeDay(date, event) {
+    event.preventDefault();
+
+    this.setState({
+      date : date
     });
   }
 
