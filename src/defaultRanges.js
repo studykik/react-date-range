@@ -1,64 +1,127 @@
-export default {
-  'Today'         : {
-    startDate     : (now) => {
-      return now;
-    },
-    endDate       : (now) => {
-      return now;
+import {
+  addDays,
+  endOfDay,
+  startOfDay,
+  startOfMonth,
+  endOfMonth,
+  addMonths,
+  startOfWeek,
+  endOfWeek,
+  isSameDay,
+  differenceInCalendarDays,
+} from 'date-fns';
+
+const defineds = {
+  startOfWeek: startOfWeek(new Date()),
+  endOfWeek: endOfWeek(new Date()),
+  startOfLastWeek: startOfWeek(addDays(new Date(), -7)),
+  endOfLastWeek: endOfWeek(addDays(new Date(), -7)),
+  startOfToday: startOfDay(new Date()),
+  endOfToday: endOfDay(new Date()),
+  startOfYesterday: startOfDay(addDays(new Date(), -1)),
+  endOfYesterday: endOfDay(addDays(new Date(), -1)),
+  startOfMonth: startOfMonth(new Date()),
+  endOfMonth: endOfMonth(new Date()),
+  startOfLastMonth: startOfMonth(addMonths(new Date(), -1)),
+  endOfLastMonth: endOfMonth(addMonths(new Date(), -1)),
+};
+
+const staticRangeHandler = {
+  get: (obj, prop) => {
+    const checkIsSelected = range => {
+      const definedRange = obj.range();
+      return (
+        isSameDay(range.startDate, definedRange.startDate) &&
+        isSameDay(range.endDate, definedRange.endDate)
+      );
+    };
+    switch (prop) {
+      case 'isSelected':
+        return obj[prop] || checkIsSelected;
+      default:
+        return obj[prop];
     }
   },
+};
 
-  'Yesterday'     : {
-    startDate     : (now) => {
-      return now.add(-1, 'days');
-    },
-    endDate       : (now) => {
-      return now.add(-1, 'days');
-    }
-  },
-
-  'Last 7 Days'   : {
-    startDate     : (now) => {
-      return now.add(-7, 'days');
-    },
-    endDate       : (now) => {
-      return now;
-    }
-  },
-
-  'Last 14 Days'   : {
-    startDate     : (now) => {
-      return now.add(-14, 'days');
-    },
-    endDate       : (now) => {
-      return now;
-    }
-  },
-
-  'Last 30 Days'  : {
-    startDate     : (now) => {
-      return now.add(-30, 'days');
-    },
-    endDate       : (now) => {
-      return now;
-    }
-  },
-
-  'This Month'    : {
-    startDate     : (now) => {
-      return now.startOf('month');
-    },
-    endDate       : (now) => {
-      return now.endOf('month');
-    }
-  },
-
-  'Last Month'    : {
-    startDate     : (now) => {
-      return now.clone().subtract(1, 'months').startOf('month');
-    },
-    endDate       : (now) => {
-      return now.clone().subtract(1, 'months').endOf('month');
-    }
-  }
+export function createStaticRanges(ranges) {
+  return ranges.map(range => new Proxy(range, staticRangeHandler));
 }
+
+export const defaultStaticRanges = createStaticRanges([
+  {
+    label: 'Today',
+    range: () => ({
+      startDate: defineds.startOfToday,
+      endDate: defineds.endOfToday,
+    }),
+  },
+  {
+    label: 'Yesterday',
+    range: () => ({
+      startDate: defineds.startOfYesterday,
+      endDate: defineds.endOfYesterday,
+    }),
+  },
+
+  {
+    label: 'This Week',
+    range: () => ({
+      startDate: defineds.startOfWeek,
+      endDate: defineds.endOfWeek,
+    }),
+  },
+  {
+    label: 'Last Week',
+    range: () => ({
+      startDate: defineds.startOfLastWeek,
+      endDate: defineds.endOfLastWeek,
+    }),
+  },
+  {
+    label: 'This Month',
+    range: () => ({
+      startDate: defineds.startOfMonth,
+      endDate: defineds.endOfMonth,
+    }),
+  },
+  {
+    label: 'Last Month',
+    range: () => ({
+      startDate: defineds.startOfLastMonth,
+      endDate: defineds.endOfLastMonth,
+    }),
+  },
+]);
+
+export const defaultInputRanges = [
+  {
+    label: 'days up to today',
+    range(value) {
+      return {
+        startDate: addDays(defineds.startOfToday, (Math.max(Number(value), 1) - 1) * -1),
+        endDate: defineds.endOfToday,
+      };
+    },
+    getCurrentValue(range) {
+      if (!isSameDay(range.endDate, defineds.endOfToday)) return '-';
+      if (!range.startDate) return '∞';
+      return differenceInCalendarDays(defineds.endOfToday, range.startDate) + 1;
+    },
+  },
+  {
+    label: 'days starting today',
+    range(value) {
+      const today = new Date();
+      return {
+        startDate: today,
+        endDate: addDays(today, Math.max(Number(value), 1) - 1),
+      };
+    },
+    getCurrentValue(range) {
+      if (!isSameDay(range.startDate, defineds.startOfToday)) return '-';
+      if (!range.endDate) return '∞';
+      return differenceInCalendarDays(range.endDate, defineds.startOfToday) + 1;
+    },
+  },
+];
